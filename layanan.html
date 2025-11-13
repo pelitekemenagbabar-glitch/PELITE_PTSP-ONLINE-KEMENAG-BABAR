@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Pelite PTSP Online Kemenag Babar</title>
+    <!-- Tailwind CSS untuk Neumorphism -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neumo-base': '#e0e5ec',
+                        'primary-blue': '#2563eb',
+                    },
+                    boxShadow: {
+                        'neumo-out': '6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff',
+                        'neumo-in': 'inset 6px 6px 12px #a3b1c6, inset -6px -6px 12px #ffffff',
+                        'neumo-press': 'inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #ffffff',
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                        'titillium': ['Titillium Web', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        html { font-family: 'Inter', sans-serif; }
+        body {
+            background-image: url('ng.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #4b5563;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            transition: transform 0.3s ease-out;
+            transform: translateX(100%);
+            background-color: #e0e5ec;
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        /* Neumorphic Button */
+        .neumo-btn {
+            background-color: #e0e5ec;
+            box-shadow: 6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff;
+            transition: all 0.2s ease-in-out;
+        }
+        .neumo-btn:active {
+            box-shadow: inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #ffffff;
+            color: #2563eb;
+        }
+
+        /* Custom style for cards - neumorphic lightmode */
+        .service-card {
+            background: linear-gradient(to bottom, #3a475e, #262a30); /* Gradasi agak gelap */
+            border-radius: 1rem;
+            padding: 1rem;
+            color: white; /* Ubah teks ke putih agar kontras dengan background gelap */
+            text-align: center;
+            box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff;
+            transition: all 0.2s ease-in-out;
+        }
+        .service-card:hover {
+            box-shadow: 12px 12px 24px #a3b1c6, -12px -12px 24px #ffffff;
+        }
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            object-fit: cover; /* Agar PNG fit dengan baik */
+            box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
+        }
+        .service-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .service-item {
+            background: linear-gradient(to right, #22c55e, #06b6d4);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: white;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -2px -2px 5px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        .service-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.3), -3px -3px 8px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Tombol 3D */
+        .btn-3d {
+            background-color: #2563eb; /* Warna biru primer */
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 4px solid #1d4ed8; /* Warna lebih gelap untuk efek 3D */
+            transition: all 0.1s ease-in-out;
+            display: inline-block;
+        }
+        .btn-3d:hover {
+            background-image: linear-gradient(to right, #22c55e, #16a34a);
+            border-bottom-color: #15803d;
+        }
+        .btn-3d:active {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar & Sidebar -->
+    <nav class="sticky top-0 z-20 bg-green-800 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img src="logokemenag.png" alt="Logo PTSP" class="w-8 h-8 rounded-full mr-2">
+                    <span class="text-xl font-bold text-white">PTSP ONLINE KEMENTERIAN AGAMA BANGKA BARAT</span>
+                </div>
+                <!-- Hamburger selalu muncul di semua ukuran -->
+                <div class="flex">
+                    <button id="menu-button" class="p-2 rounded-md text-gray-200 hover:text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="Toggle Menu">
+                        <i data-lucide="menu" class="h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black opacity-0 z-20 transition-opacity duration-300 pointer-events-none"></div>
+
+    <!-- Sidebar Menu -->
+    <div id="sidebar-menu" class="sidebar fixed top-0 right-0 w-64 h-full shadow-xl z-30 flex flex-col pt-4 overflow-y-auto">
+        <div class="flex justify-end p-4">
+            <button id="close-menu-button" class="neumo-btn w-10 h-10 rounded-full flex items-center justify-center" aria-label="Close Menu">
+                <i data-lucide="x" class="h-6 w-6 text-gray-600"></i>
+            </button>
+        </div>
+        <a href="index.html" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Beranda</a>
+        <a href="prosedur.html" class="p-4 text-gray-700 bg-primary-blue text-white font-medium border-b border-neumo-base" onclick="closeMenu()">Prosedur Layanan</a>
+        <a href="layanan.html" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Layanan Masyarakat</a>
+        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Janji Temu</a>
+        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Survey Kepuasan Masyarakat</a>
+        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Aplikasi Akhdan</a>
+        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Hubungi Kami</a>
+        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">FAQ</a>
+        <a href="pengaturan.html" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Pengaturan Administrator</a>
+        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Daftar Layanan</a>
+        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Backup Data & Reset</a>
+    </div>
+
+    <!-- Main Content -->
+    <main class="py-12 px-6">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-3xl font-bold text-center mb-10 text-primary-blue">Pilih Jenis Layanan Online</h1>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 2: Tata Usaha -->
+                <div class="service-card">
+                    <img src="tu.png" alt="Tata Usaha Icon" class="service-icon">
+                    <div class="service-title">Tata Usaha</div>
+                    <div class="service-item">Izin Belajar dan Tugas Belajar</div>
+                    <div class="service-item">Permohonan Nomor ID Rumah Ibadah</div>
+                    <div class="service-item">Permohonan Pendirian Rumah Ibadah</div>
+                </div>
+
+
+                <!-- Card 1: Haji & Umrah -->
+                <div class="service-card">
+                    <img src="hajj.png" alt="Haji & Umrah Icon" class="service-icon">
+                    <div class="service-title">Haji & Umrah</div>
+                    <div class="service-item">Pelimpahan Nomor Porsi Meninggal</div>
+                    <div class="service-item">Pelimpahan Nomor Porsi Sakit Permanen</div>
+                    <div class="service-item">Pembatalan BPIH/Penarikan Setoran Awal</div>
+                    <div class="service-item">Pembatalan Haji Pribadi</div>
+                    <div class="service-item">Rekomendasi Passpor Umroh</div>
+                </div>
+
+
+                <!-- Card 3: PAKPIS -->
+                <div class="service-card">
+                    <img src="papkis.png" alt="PAKPIS Icon" class="service-icon">
+                    <div class="service-title">Pendidikan Agama dan Keagamaan Islam</div>
+                    <div class="service-item">Permohonan Izin Operasional Pondok Pesantren</div>
+                    <div class="service-item">Persyaratan Pendirian LPQ</div>
+                    <div class="service-item">Persyaratan TPG Guru</div>
+                </div>
+
+                <!-- Card 4: PENMAD -->
+                <div class="service-card">
+                    <img src="penmad.png" alt="PENMAD Icon" class="service-icon">
+                    <div class="service-title">Pendidikan Madrasah</div>
+                    <div class="service-item">Izin Pendirian Madrasah Diniyah</div>
+                    <div class="service-item">dll</div>
+                </div>
+
+                <!-- Card 5: BIMAS -->
+                <div class="service-card">
+                    <img src="bimas.png" alt="BIMAS Icon" class="service-icon">
+                    <div class="service-title">Bimbingan Masyarakat</div>
+                    <div class="service-item">Permohonan Nomor ID Masjid/Mushola</div>
+                    <div class="service-item">Persyaratan ID Majlis Taqlim</div>
+                </div>
+
+                <!-- Card 6: PTSP -->
+                <div class="service-card">
+                    <img src="ptsp.png" alt="PTSP Icon" class="service-icon">
+                    <div class="service-title">PTSP</div>
+                    <div class="service-item">Administrasi Umum</div>
+                </div>
+            </div>
+
+            <!-- Tombol Beranda 3D -->
+            <div class="mt-12 text-center">
+                <a href="index.html" class="btn-3d">
+                    Beranda
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-12 pb-8" id="kontak">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+                <div>
+                    <h4 class="text-xl font-semibold mb-4 text-blue-400">PTSP Kementerian Agama Bangka Barat</h4>
+                    <p class="text-sm mb-2 flex items-start">
+                        <i data-lucide="map-pin" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                        Jl. Pelayanan Terpadu No. 123, Pusat Kota
+                    </p>
+                    <p class="text-sm mb-2 flex items-start">
+                        <i data-lucide="mail" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                        info@ptspdigital.go.id
+                    </p>
+                    <p class="text-sm flex items-start">
+                        <i data-lucide="phone" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                        (021) 1234 5678
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold mb-4 text-blue-400">Link Cepat</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#layanan" class="hover:text-blue-300 transition duration-150">Daftar Layanan</a></li>
+                        <li><a href="prosedur.html" class="hover:text-blue-300 transition duration-150">Standar Pelayanan</a></li>
+                        <li><a href="#faq" class="hover:text-blue-300 transition duration-150">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="md:text-right">
+                    <h4 class="text-xl font-semibold mb-4 text-blue-400">Ikuti Kami</h4>
+                    <div class="flex space-x-4 md:justify-end">
+                        <div class="w-10 h-10 rounded-full bg-gray-700 shadow-lg flex items-center justify-center transition duration-300 hover:bg-blue-500">
+                            <i data-lucide="facebook" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-gray-700 shadow-lg flex items-center justify-center transition duration-300 hover:bg-blue-500">
+                            <i data-lucide="twitter" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-gray-700 shadow-lg flex items-center justify-center transition duration-300 hover:bg-blue-500">
+                            <i data-lucide="instagram" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-gray-700 shadow-lg flex items-center justify-center transition duration-300 hover:bg-blue-500">
+                            <i data-lucide="user-cog" class="w-5 h-5 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center">
+                <p class="text-sm text-gray-400">© <span id="year"></span> PTSP Digital. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Sidebar
+        const menuButton = document.getElementById('menu-button');
+        const closeMenuButton = document.getElementById('close-menu-button');
+        const sidebarMenu = document.getElementById('sidebar-menu');
+        const overlay = document.getElementById('overlay');
+        const body = document.body;
+
+        function openMenu() {
+            sidebarMenu.classList.add('open');
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.classList.add('opacity-50', 'pointer-events-auto');
+            body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            sidebarMenu.classList.remove('open');
+            overlay.classList.remove('opacity-50', 'pointer-events-auto');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            body.style.overflow = '';
+        }
+
+        menuButton.addEventListener('click', openMenu);
+        closeMenuButton.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+
+        // Lucide
+        lucide.createIcons();
+
+        // Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Smooth Scroll
+        document.querySelectorAll('#sidebar-menu a').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const targetId = item.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 64,
+                        behavior: 'smooth'
+                    });
+                }
+                closeMenu();
+            });
+        });
+    </script>
+</body>
+</html>
