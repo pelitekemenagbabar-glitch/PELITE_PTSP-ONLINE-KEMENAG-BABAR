@@ -6,10 +6,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Pelite PTSP Online Kemenag Babar</title>
-    <!-- Tailwind CSS untuk Neumorphism -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -32,7 +30,6 @@
             }
         }
     </script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         html { font-family: 'Inter', sans-serif; }
@@ -71,7 +68,7 @@
             background: linear-gradient(to bottom, #3a475e, #262a30); /* Gradasi agak gelap */
             border-radius: 1rem;
             padding: 1rem;
-            color: white; /* Ubah teks ke putih agar kontras dengan background gelap */
+            color: white; /* Teks putih untuk kontras dengan background card gelap */
             text-align: center;
             box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff;
             transition: all 0.2s ease-in-out;
@@ -84,7 +81,7 @@
             height: 80px;
             border-radius: 50%;
             margin: 0 auto 1rem;
-            object-fit: cover; /* Agar PNG fit dengan baik */
+            object-fit: cover; 
             box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
         }
         .service-title {
@@ -92,20 +89,26 @@
             font-weight: bold;
             margin-bottom: 1rem;
         }
+        
+        /* START MODIFIKASI: Service Item Putih/Hitam dengan Hover Hijau Gelap */
         .service-item {
-            background: linear-gradient(to right, #22c55e, #06b6d4);
+            background: #ffffff; /* Latar Belakang Putih */
+            color: #1f2937; /* Warna Teks Hitam (abu-abu gelap) */
             border-radius: 0.5rem;
             padding: 0.75rem;
+            text-align: center; /* Perubahan: Teks di tengah */
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: white;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -2px -2px 5px rgba(255, 255, 255, 0.5);
+            box-shadow: inset 4px 4px 8px #d1d9e6, inset -4px -4px 8px #ffffff;
             transition: all 0.3s ease;
         }
         .service-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.3), -3px -3px 8px rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px); /* Tetap memberikan sedikit efek naik */
+            box-shadow: none; /* Perubahan: Shadow hilang saat hover */
+            background-color: #166534; /* Perubahan: Latar belakang hijau gelap saat hover */
+            color: #ffffff; /* Perubahan: Teks putih saat hover */
         }
+        /* END MODIFIKASI */
 
         /* Tombol 3D */
         .btn-3d {
@@ -131,7 +134,6 @@
 </head>
 <body>
 
-    <!-- Navbar & Sidebar -->
     <nav class="sticky top-0 z-20 bg-green-800 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
@@ -139,7 +141,6 @@
                     <img src="logokemenag.png" alt="Logo PTSP" class="w-8 h-8 rounded-full mr-2">
                     <span class="text-xl font-bold text-white">PTSP ONLINE KEMENTERIAN AGAMA BANGKA BARAT</span>
                 </div>
-                <!-- Hamburger selalu muncul di semua ukuran -->
                 <div class="flex">
                     <button id="menu-button" class="p-2 rounded-md text-gray-200 hover:text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="Toggle Menu">
                         <i data-lucide="menu" class="h-6 w-6"></i>
@@ -149,10 +150,8 @@
         </div>
     </nav>
 
-    <!-- Overlay -->
     <div id="overlay" class="fixed inset-0 bg-black opacity-0 z-20 transition-opacity duration-300 pointer-events-none"></div>
 
-    <!-- Sidebar Menu -->
     <div id="sidebar-menu" class="sidebar fixed top-0 right-0 w-64 h-full shadow-xl z-30 flex flex-col pt-4 overflow-y-auto">
         <div class="flex justify-end p-4">
             <button id="close-menu-button" class="neumo-btn w-10 h-10 rounded-full flex items-center justify-center" aria-label="Close Menu">
@@ -172,43 +171,44 @@
         <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Backup Data & Reset</a>
     </div>
 
-    <!-- Main Content -->
-    <main class="py-12 px-6">
-        <div class="max-w-7xl mx-auto">
-            <h1 class="text-3xl font-bold text-center mb-10 text-primary-blue">Pilih Jenis Layanan Online PTSP</h1>
+    <main class="py-12 px-[10px]">
+        <div class="w-full">
+            <h1 class="text-3xl font-bold text-center mb-10 text-primary-blue font-poppins">Pilih Jenis Layanan Online PTSP</h1>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Card 2: Tata Usaha -->
-                <div class="service-card">
-                    <img src="ptsp.png" alt="Tata Usaha Icon" class="service-icon">
+            <div class="grid grid-cols-1 gap-6 justify-center">
+                
+                <div class="service-card w-full">
+                    <img src="ptsp.png" alt="PTSP Icon" class="service-icon">
                     <div class="service-title">Pelayanan Terpadu Satu Pintu</div>
-                    <div class="service-item">Izin Belajar dan Tugas Belajar</div>
-                    <div class="service-item">Permohonan Nomor ID Rumah Ibadah</div>
-                    <div class="service-item">Permohonan Pendirian Rumah Ibadah</div>
-                    <div class="service-item">Pelimpahan Nomor Porsi Meninggal</div>
-                    <div class="service-item">Pelimpahan Nomor Porsi Sakit Permanen</div>
-                    <div class="service-item">Pembatalan BPIH/Penarikan Setoran Awal</div>
-                    <div class="service-item">Pembatalan Haji Pribadi</div>
-                    <div class="service-item">Rekomendasi Passpor Umroh</div>
-                    <div class="service-item">Permohonan Izin Operasional Pondok Pesantren</div>
-                    <div class="service-item">Persyaratan Pendirian LPQ</div>
-                    <div class="service-item">Persyaratan TPG Guru</div>
-                    <div class="service-item">Izin Pendirian Madrasah Diniyah</div>
-                    <div class="service-item">Permohonan Nomor ID Masjid/Mushola</div>
-                    <div class="service-item">Persyaratan ID Majlis Taqlim</div>
+                    <div class="space-y-2 mt-4"> 
+                        <a href="#" class="service-item block">Izin Belajar dan Tugas Belajar</a>
+                        <a href="#" class="service-item block">Permohonan Nomor ID Rumah Ibadah</a>
+                        <a href="#" class="service-item block">Permohonan Pendirian Rumah Ibadah</a>
+                        <a href="#" class="service-item block">Pelimpahan Nomor Porsi Meninggal</a>
+                        <a href="#" class="service-item block">Pelimpahan Nomor Porsi Sakit Permanen</a>
+                        <a href="#" class="service-item block">Pembatalan BPIH/Penarikan Setoran Awal</a>
+                        <a href="#" class="service-item block">Pembatalan Haji Pribadi</a>
+                        <a href="#" class="service-item block">Rekomendasi Passpor Umroh</a>
+                        <a href="#" class="service-item block">Permohonan Izin Operasional Pondok Pesantren</a>
+                        <a href="#" class="service-item block">Persyaratan Pendirian LPQ</a>
+                        <a href="#" class="service-item block">Persyaratan TPG Guru</a>
+                        <a href="#" class="service-item block">Izin Pendirian Madrasah Diniyah</a>
+                        <a href="#" class="service-item block">Permohonan Nomor ID Masjid/Mushola</a>
+                        <a href="#" class="service-item block">Persyaratan ID Majlis Taqlim</a>
+                    </div>
                 </div>
+                
+            </div>
 
-
-            <!-- Tombol Beranda 3D -->
             <div class="mt-12 text-center">
                 <a href="index.html" class="btn-3d">
+                    <i data-lucide="home" class="w-5 h-5 mr-2 inline-block align-text-bottom"></i>
                     Beranda
                 </a>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="bg-gray-800 text-white pt-12 pb-8" id="kontak">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -259,7 +259,6 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
