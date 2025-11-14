@@ -56,6 +56,24 @@
             color: #2563eb;
         }
 
+        /* 3D Menu Item Style */
+        .menu-item-3d {
+            background-color: #e0e5ec;
+            border-radius: 12px;
+            box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+            transition: all 0.2s ease-in-out;
+            margin: 8px 16px;
+            padding: 1rem;
+        }
+        .menu-item-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff;
+        }
+        .menu-item-3d:active, .menu-item-3d.active {
+            box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
+            color: #2563eb;
+        }
+
         .neumo-card {
             background-color: #e0e5ec;
             border-radius: 1.5rem;
@@ -113,7 +131,7 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
                     <img src="logokemenag.png" alt="Logo PTSP" class="w-8 h-8 rounded-full mr-2">
-                    <span class="text-xl font-bold text-white">PTSP ONLINE KEMENTERIAN AGAMA BANGKA BARAT</span>
+                    <span class="text-xl font-bold text-white">KEMENTERIAN AGAMA BANGKA BARAT</span>
                 </div>
                 <!-- Hamburger selalu muncul di semua ukuran -->
                 <div class="flex">
@@ -133,17 +151,37 @@
                 <i data-lucide="x" class="h-6 w-6 text-gray-600"></i>
             </button>
         </div>
-        <a href="index.html" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Beranda</a>
-        <a href="prosedur.html" class="p-4 text-gray-700 bg-primary-blue text-white font-medium border-b border-neumo-base" onclick="closeMenu()">Prosedur Layanan</a>
-        <a href="layanan.html" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Layanan Masyarakat</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Janji Temu</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Survey Kepuasan Masyarakat</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Aplikasi Akhdan</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Hubungi Kami</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">FAQ</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Pengaturan Administrator</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Daftar Layanan</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base" onclick="closeMenu()">Backup Data & Reset</a>
+        <!-- Admin Info Section -->
+        <div id="sidebar-admin-info" class="text-center p-4 border-b border-gray-300 mb-4" style="display: none;">
+            <img id="sidebar-admin-photo" src="admin.png" alt="Foto Admin" class="w-20 h-20 rounded-full object-cover mx-auto mb-2 shadow-neumo-in p-1">
+            <p id="sidebar-admin-name" class="font-semibold text-primary-blue"></p>
+            <p id="sidebar-admin-role" class="text-xs text-gray-500"></p>
+        </div>
+
+        <a href="index.html" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="home" class="w-5 h-5 mr-3"></i><span>Beranda</span></a>
+        <a href="prosedur.html" class="menu-item-3d active text-primary-blue font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="file-text" class="w-5 h-5 mr-3"></i><span>Prosedur Layanan</span></a>
+        <a href="layanan.html" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="users" class="w-5 h-5 mr-3"></i><span>Layanan Masyarakat</span></a>
+        <a href="#" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="calendar-plus" class="w-5 h-5 mr-3"></i><span>Janji Temu</span></a>
+        <a href="https://pmpzi.kemenag.go.id/survei/instrumen.php?id=337" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="smile" class="w-5 h-5 mr-3"></i><span>Survey Kepuasan</span></a>
+        <a href="https://tinyurl.com/SIMDA-1-BABAR" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="app-window" class="w-5 h-5 mr-3"></i><span>Aplikasi Pendataan</span></a>
+        <a href="#" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="mail" class="w-5 h-5 mr-3"></i><span>Hubungi Kami</span></a>
+        <a href="#" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="help-circle" class="w-5 h-5 mr-3"></i><span>FAQ</span></a>
+        <a id="pengaturan-admin-menu" href="pengaturan.html" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="user-cog" class="w-5 h-5 mr-3"></i><span>Pengaturan Admin</span></a>
+        <a id="daftar-layanan-menu" href="#" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="list" class="w-5 h-5 mr-3"></i><span>Daftar Layanan</span></a>
+        <a id="backup-reset-menu" href="#" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="database-backup" class="w-5 h-5 mr-3"></i><span>Backup & Reset</span></a>
+        <a id="logout-btn-sidebar" href="#" class="menu-item-3d text-red-600 font-semibold flex items-center mt-auto" onclick="logout(event)">
+            <i data-lucide="log-out" class="w-5 h-5 mr-3"></i><span>Logout</span></a>
     </div>
 
     <!-- MAIN CONTENT: Panduan Prosedur -->
@@ -255,33 +293,33 @@
   <!-- Footer -->
     <footer class="bg-gray-800 text-white pt-12 pb-8" id="kontak">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
                 <div>
                     <h4 class="text-xl font-semibold mb-4 text-blue-400">PTSP Kementerian Agama Bangka Barat</h4>
                     <p class="text-sm mb-2 flex items-start">
                         <i data-lucide="map-pin" class="w-5 h-5 mr-3 flex-shrink-0"></i>
                         Komplek Perkantoran Terpadu Pemkab Bangka Barat, Daya Baru Pal 4, Mentok. Kode Pos: 33351
                     </p>
-                    <p class="text-sm mb-2 flex items-start">
+                    <p class="text-sm mb-2 flex items-start" id="footer-email">
                         <i data-lucide="mail" class="w-5 h-5 mr-3 flex-shrink-0"></i>
                         kemenagkabbabar@gmail.com
                     </p>
-                    <p class="text-sm flex items-start">
+                    <p class="text-sm flex items-start" id="footer-phone">
                         <i data-lucide="phone" class="w-5 h-5 mr-3 flex-shrink-0"></i>
                         (0717)1234567
                     </p>
                 </div>
                 <div>
                     <h4 class="text-xl font-semibold mb-4 text-blue-400">Link Cepat</h4>
-                    <ul class="space-y-2 text-sm">
+                    <ul class="space-y-2 text-sm" id="footer-quick-links">
                         <li><a href="#layanan" class="hover:text-blue-300 transition duration-150">Daftar Layanan</a></li>
                         <li><a href="prosedur.html" class="hover:text-blue-300 transition duration-150">Standar Pelayanan</a></li>
                         <li><a href="#faq" class="hover:text-blue-300 transition duration-150">FAQ</a></li>
                     </ul>
                 </div>
-                <div class="md:text-right">
+                <div class="md:text-left">
                     <h4 class="text-xl font-semibold mb-4 text-blue-400">Ikuti Kami</h4>
-                    <div class="flex space-x-4 md:justify-end">
+                    <div class="flex space-x-4 md:justify-start">
                         <div class="w-10 h-10 rounded-full bg-gray-700 shadow-lg flex items-center justify-center transition duration-300 hover:bg-blue-500">
                             <i data-lucide="facebook" class="w-5 h-5 text-white"></i>
                         </div>
@@ -291,8 +329,6 @@
                         <div class="w-10 h-10 rounded-full bg-gray-700 shadow-lg flex items-center justify-center transition duration-300 hover:bg-blue-500">
                             <i data-lucide="instagram" class="w-5 h-5 text-white"></i>
                         </div>
-                        <div class="w-10 h-10 rounded-full bg-gray-700 shadow-lg flex items-center justify-center transition duration-300 hover:bg-blue-500">
-                            <i data-lucide="user-cog" class="w-5 h-5 text-white"></i>
                         </div>
                     </div>
                 </div>
@@ -304,6 +340,9 @@
     </footer>
 
     <!-- Bootstrap JS -->
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Sidebar
@@ -331,9 +370,77 @@
         closeMenuButton?.addEventListener('click', closeMenu);
         overlay?.addEventListener('click', closeMenu);
 
-        // Lucide & Year
+        // Lucide & Year (dipindahkan ke dalam DOMContentLoaded)
+
+        // =======================================================
+        // >>>>>>>>> SCRIPT UI LOGIN/LOGOUT STATE <<<<<<<<<<<
+        // =======================================================
+        const SUPABASE_URL = 'https://ridspgzuzptmckeznpkt.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpZHNwZ3p1enB0bWNrZXpucGt0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTk4MzEsImV4cCI6MjA3ODU5NTgzMX0.va-HJexum-IFKP8aTA4LBvQb6vcUdNseBXfnElFL5oE';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const pengaturanMenu = document.getElementById('pengaturan-admin-menu');
+        const layananMenu = document.getElementById('daftar-layanan-menu');
+        const backupMenu = document.getElementById('backup-reset-menu');
+        const logoutBtn = document.getElementById('logout-btn-sidebar');
+        const sidebarAdminInfo = document.getElementById('sidebar-admin-info');
+        // const loginIconBtn = document.getElementById('login-icon-btn'); // Ikon login di footer sudah dihapus dari file ini
+
+        function updateUIForLogin(adminData) {
+            // Update sidebar admin info
+            sidebarAdminInfo.style.display = 'block';
+            document.getElementById('sidebar-admin-photo').src = adminData.photo;
+            document.getElementById('sidebar-admin-name').textContent = adminData.nama;
+            document.getElementById('sidebar-admin-role').textContent = 'Admin Logged In';
+            // Tampilkan menu admin dan tombol logout
+            pengaturanMenu.style.display = 'flex';
+            layananMenu.style.display = 'flex';
+            backupMenu.style.display = 'flex';
+            logoutBtn.style.display = 'flex';
+            if (loginIconBtn) loginIconBtn.style.display = 'none';
+        }
+
+        function updateUIForLogout() {
+            // Sembunyikan menu admin dan tombol logout
+            pengaturanMenu.style.display = 'none';
+            layananMenu.style.display = 'none';
+            backupMenu.style.display = 'none';
+            logoutBtn.style.display = 'none';
+            if (loginIconBtn) loginIconBtn.style.display = 'flex';
+        }
+
+        function logout(event) {
+            event.preventDefault();
+            localStorage.removeItem('loggedInAdmin');
+            alert('Anda telah logout.');
+            window.location.href = 'index.html';
+        }
+
+        // Cek status login saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            const loggedInAdmin = localStorage.getItem('loggedInAdmin');
+            if (loggedInAdmin) {
+                updateUIForLogin(JSON.parse(loggedInAdmin));
+            } else {
+                updateUIForLogout();
+            }
+            lucide.createIcons();
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+
+        // Listener untuk sinkronisasi antar tab
+        window.addEventListener('storage', (event) => {
+            if (event.key !== 'loggedInAdmin') return;
+            
+            const loggedInAdmin = event.newValue;
+            if (loggedInAdmin) {
+                updateUIForLogin(JSON.parse(loggedInAdmin));
+            } else {
+                updateUIForLogout();
+            }
+        });
+
         lucide.createIcons();
-        document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
