@@ -63,6 +63,24 @@
             color: #2563eb;
         }
 
+        /* 3D Menu Item Style */
+        .menu-item-3d {
+            background-color: #e0e5ec;
+            border-radius: 12px;
+            box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+            transition: all 0.2s ease-in-out;
+            margin: 8px 16px;
+            padding: 1rem;
+        }
+        .menu-item-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff;
+        }
+        .menu-item-3d:active, .menu-item-3d.active {
+            box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
+            color: #2563eb;
+        }
+
         /* Tabel Style */
         .admin-table {
             background-color: #e0e5ec;
@@ -130,7 +148,7 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
                     <img src="logokemenag.png" alt="Logo PTSP" class="w-8 h-8 rounded-full mr-2">
-                    <span class="text-xl font-bold text-white">PTSP ONLINE KEMENTERIAN AGAMA BANGKA BARAT</span>
+                    <span class="text-xl font-bold text-white">KEMENTERIAN AGAMA BANGKA BARAT</span>
                 </div>
                 <div class="flex">
                     <button id="menu-button" class="p-2 rounded-md text-gray-200 hover:text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="Toggle Menu">
@@ -149,17 +167,38 @@
                 <i data-lucide="x" class="h-6 w-6 text-gray-600"></i>
             </button>
         </div>
-        <a href="index.html" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base no-underline" onclick="closeMenu()">Beranda</a>
-        <a href="prosedur.html" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base no-underline" onclick="closeMenu()">Prosedur Layanan</a> 
-        <a href="layanan.html" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base no-underline" onclick="closeMenu()">Layanan Masyarakat</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base no-underline" onclick="closeMenu()">Janji Temu</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base no-underline" onclick="closeMenu()">Survey Kepuasan Masyarakat</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base no-underline" onclick="closeMenu()">Aplikasi Akhdan</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base no-underline" onclick="closeMenu()">Hubungi Kami</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base no-underline" onclick="closeMenu()">FAQ</a>
-        <a href="pengaturan.html" class="p-4 text-gray-700 bg-primary-blue text-white font-medium border-b border-neumo-base no-underline" onclick="closeMenu()">Pengaturan Administrator</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base no-underline" onclick="closeMenu()">Daftar Layanan</a>
-        <a href="#" class="p-4 text-gray-700 hover:shadow-neumo-in font-medium border-b border-neumo-base no-underline" onclick="closeMenu()">Backup Data & Reset</a>
+        <!-- Admin Info Section -->
+        <div id="sidebar-admin-info" class="text-center p-4 border-b border-gray-300 mb-4" style="display: none;">
+            <img id="sidebar-admin-photo" src="admin.png" alt="Foto Admin" class="w-20 h-20 rounded-full object-cover mx-auto mb-2 shadow-neumo-in p-1">
+            <p id="sidebar-admin-name" class="font-semibold text-primary-blue"></p>
+            <p id="sidebar-admin-role" class="text-xs text-gray-500"></p>
+        </div>
+        <a href="index.html" class="menu-item-3d text-gray-700 font-medium flex items-center no-underline" onclick="closeMenu()">
+            <i data-lucide="home" class="w-5 h-5 mr-3"></i><span>Beranda</span></a>
+        <a href="prosedur.html" class="menu-item-3d text-gray-700 font-medium flex items-center no-underline" onclick="closeMenu()">
+            <i data-lucide="file-text" class="w-5 h-5 mr-3"></i><span>Prosedur Layanan</span></a>
+        <a href="layanan.html" class="menu-item-3d text-gray-700 font-medium flex items-center no-underline" onclick="closeMenu()">
+            <i data-lucide="users" class="w-5 h-5 mr-3"></i><span>Layanan Masyarakat</span></a>
+        <a href="#" class="menu-item-3d text-gray-700 font-medium flex items-center no-underline" onclick="closeMenu()">
+            <i data-lucide="calendar-plus" class="w-5 h-5 mr-3"></i><span>Janji Temu</span></a>
+        <a href="https://pmpzi.kemenag.go.id/survei/instrumen.php?id=337" class="menu-item-3d text-gray-700 font-medium flex items-center no-underline" onclick="closeMenu()">
+            <i data-lucide="smile" class="w-5 h-5 mr-3"></i><span>Survey Kepuasan</span></a>
+        <a href="https://tinyurl.com/SIMDA-1-BABAR" class="menu-item-3d text-gray-700 font-medium flex items-center no-underline" onclick="closeMenu()">
+            <i data-lucide="app-window" class="w-5 h-5 mr-3"></i><span>Aplikasi Pendataan</span></a>
+        <a href="#" class="menu-item-3d text-gray-700 font-medium flex items-center no-underline" onclick="closeMenu()">
+            <i data-lucide="mail" class="w-5 h-5 mr-3"></i><span>Hubungi Kami</span></a>
+        <a href="#" class="menu-item-3d text-gray-700 font-medium flex items-center no-underline" onclick="closeMenu()">
+            <i data-lucide="help-circle" class="w-5 h-5 mr-3"></i><span>FAQ</span></a>
+        <a id="pengaturan-admin-menu" href="pengaturan.html" class="menu-item-3d active text-primary-blue font-medium flex items-center no-underline" onclick="closeMenu()">
+            <i data-lucide="user-cog" class="w-5 h-5 mr-3"></i><span>Pengaturan Administrator</span></a>
+        <a id="daftar-layanan-menu" href="#" class="menu-item-3d text-gray-700 font-medium flex items-center no-underline" onclick="closeMenu()">
+            <i data-lucide="list" class="w-5 h-5 mr-3"></i><span>Daftar Layanan</span></a>
+        <a id="backup-reset-menu" href="#" class="menu-item-3d text-gray-700 font-medium flex items-center no-underline" onclick="closeMenu()">
+            <i data-lucide="database-backup" class="w-5 h-5 mr-3"></i><span>Backup & Reset</span></a>
+        <a id="logout-btn-sidebar" href="#" class="menu-item-3d text-red-600 font-semibold flex items-center no-underline mt-auto" onclick="logout(event)">
+            <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>
+            <span>Logout</span>
+        </a>
     </div>
 
     <main class="py-12 px-6 flex-grow">
@@ -309,12 +348,6 @@
                         <div class="w-10 h-10 rounded-full bg-gray-700 shadow-lg flex items-center justify-center transition duration-300 hover:bg-blue-500">
                             <i data-lucide="instagram" class="w-5 h-5 text-white"></i>
                         </div>
-                        <div class="w-10 h-10 rounded-full bg-gray-700 shadow-lg flex items-center justify-center transition duration-300 hover:bg-blue-500">
-                            <i data-lucide="user-cog" class="w-5 h-5 text-white"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="mt-8 pt-6 border-t border-gray-700 text-center">
                 <p class="text-sm text-gray-400">© <span id="year"></span> PTSP Digital. Hak Cipta Dilindungi.</p>
             </div>
@@ -387,6 +420,10 @@
         async function fetchAdmins() {
             const tableBody = document.getElementById('adminTableBody');
             tableBody.innerHTML = ''; 
+            if (!supabaseClient) {
+                tableBody.innerHTML = `<tr><td colspan="6" class="text-center text-red-500">Supabase client tidak terinisialisasi.</td></tr>`;
+                return;
+            }
             
             const { data: admins, error } = await supabaseClient // Menggunakan supabaseClient yang benar
                 .from('tabeladmin')
@@ -421,8 +458,59 @@
             }
         }
 
+        // =======================================================
+        // >>>>>>>>> SCRIPT UI LOGIN/LOGOUT STATE <<<<<<<<<<<
+        // =======================================================
+        const pengaturanMenu = document.getElementById('pengaturan-admin-menu');
+        const layananMenu = document.getElementById('daftar-layanan-menu');
+        const backupMenu = document.getElementById('backup-reset-menu');
+        const logoutBtn = document.getElementById('logout-btn-sidebar');
+        const sidebarAdminInfo = document.getElementById('sidebar-admin-info');
+
+        function checkLoginState() {
+            const loggedInAdmin = localStorage.getItem('loggedInAdmin');
+            if (loggedInAdmin) {
+                const adminData = JSON.parse(loggedInAdmin);
+                // Update sidebar admin info
+                sidebarAdminInfo.style.display = 'block';
+                document.getElementById('sidebar-admin-photo').src = adminData.photo;
+                document.getElementById('sidebar-admin-name').textContent = adminData.nama;
+                document.getElementById('sidebar-admin-role').textContent = 'Admin Logged In';
+                // Tampilkan menu admin dan tombol logout
+                pengaturanMenu.style.display = 'flex';
+                layananMenu.style.display = 'block';
+                backupMenu.style.display = 'block';
+                logoutBtn.style.display = 'flex';
+                fetchAdmins(); // Muat data admin karena sudah login
+            } else {
+                // Sembunyikan menu admin dan tombol logout
+                pengaturanMenu.style.display = 'none';
+                layananMenu.style.display = 'none';
+                backupMenu.style.display = 'none';
+                logoutBtn.style.display = 'none';
+                // Sembunyikan sidebar admin info
+                sidebarAdminInfo.style.display = 'none';
+                // Redirect atau tampilkan pesan bahwa harus login
+                document.querySelector('main').innerHTML = `<div class="text-center"><h1 class="text-2xl font-bold text-red-600">Akses Ditolak</h1><p>Anda harus login untuk mengakses halaman ini.</p><a href="index.html" class="neumo-btn inline-block mt-4 px-6 py-3">Kembali ke Beranda</a></div>`;
+            }
+        }
+
+        function logout(event) {
+            event.preventDefault();
+            localStorage.removeItem('loggedInAdmin');
+            alert('Anda telah logout.');
+            window.location.href = 'index.html';
+        }
+
         // Panggil saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', fetchAdmins);
+        document.addEventListener('DOMContentLoaded', checkLoginState);
+
+        // Listener untuk sinkronisasi antar tab
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'loggedInAdmin' && !event.newValue) {
+                checkLoginState(); // Re-check state, which will show "Access Denied"
+            }
+        });
 
 
         // Modal Tambah Administrator
@@ -627,6 +715,10 @@
 
         photoAdminInput.addEventListener('change', function(event) {
             const file = event.target.files[0];
+            if (!file) {
+                photoPreview.src = "https://via.placeholder.com/120x180?text=Photo+Admin";
+                return;
+            }
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
