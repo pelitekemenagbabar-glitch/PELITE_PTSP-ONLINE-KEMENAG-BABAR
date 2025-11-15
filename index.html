@@ -195,7 +195,7 @@
             <i data-lucide="users" class="w-5 h-5 mr-3"></i>
             <span>Layanan Masyarakat</span>
         </a>
-        <a href="janjitemuuser.html" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+        <a id="janji-temu-link" href="#" class="menu-item-3d text-gray-700 font-medium flex items-center">
             <i data-lucide="calendar-plus" class="w-5 h-5 mr-3"></i>
             <span>Janji Temu</span>
         </a>
@@ -337,8 +337,8 @@
                         <i data-lucide="smile-plus" class="w-16 h-16 mx-auto text-purple-500"></i>
                         <h4 class="font-semibold mt-2 text-gray-700 text-sm group-hover:text-white">Survey Kepuasan Masyarakat</h4>
                     </a>
-                                        <!-- Card 2: Simda 1 -->
-                    <a href="janjitemuuser.html" class="group block p-4 rounded-xl shadow-neumo-out transition hover:bg-gray-800 hover:shadow-hover-dark-shadow">
+                    <!-- Card Janji Temu -->
+                    <a id="janji-temu-card-link" href="#" class="group block p-4 rounded-xl shadow-neumo-out transition hover:bg-gray-800 hover:shadow-hover-dark-shadow">
                         <i data-lucide="clipboard-clock" class="w-16 h-16 mx-auto text-green-500"></i>
                         <h4 class="font-semibold mt-2 text-gray-700 text-sm group-hover:text-white">Janji Temu</h4>
                     </a>
@@ -803,6 +803,32 @@
                 }
             });
         }
+    </script>
+    <script>
+        // =======================================================
+        // >>>>>>>>>> SCRIPT KONDISIONAL JANJI TEMU <<<<<<<<<<
+        // =======================================================
+        function handleJanjiTemuClick(event) {
+            event.preventDefault(); // Mencegah navigasi default
+            const loggedInAdmin = localStorage.getItem('loggedInAdmin');
+            if (loggedInAdmin) {
+                window.location.href = 'janjitemuadmin.html';
+            } else {
+                window.location.href = 'janjitemuuser.html';
+            }
+        }
+
+        // Untuk link di sidebar
+        const janjiTemuLink = document.getElementById('janji-temu-link');
+        janjiTemuLink.addEventListener('click', (e) => {
+            handleJanjiTemuClick(e);
+            closeMenu(); // Tutup menu setelah klik
+        });
+
+        // Untuk card di halaman utama
+        const janjiTemuCardLink = document.getElementById('janji-temu-card-link');
+        janjiTemuCardLink.addEventListener('click', handleJanjiTemuClick);
+
     </script>
 </body>
 </html>
