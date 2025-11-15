@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bukti Permohonan Janji Temu</title>
+    <style>
+        /* CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px; /* Lebar maksimum seperti di gambar */
+            background-color: #ffffff;
+            padding: 40px;
+            border: 1px solid #ccc; /* Border opsional untuk meniru tampilan cetak/dokumen */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 80px; /* Ukuran logo yang sesuai */
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 14px;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        .main-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+            padding: 5px 0;
+            display: inline-block; /* Agar border mengikuti lebar teks */
+            text-align: center;
+        }
+
+        .table-container {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table-container td {
+            border: 1px solid #000;
+            padding: 15px 10px; /* Padding untuk tinggi sel */
+            font-size: 16px;
+        }
+
+        .label-col {
+            width: 40%; /* Lebar kolom label */
+            font-weight: bold;
+            background-color: #f9f9f9; /* Sedikit perbedaan warna latar belakang opsional */
+        }
+
+        .data-col {
+            width: 60%; /* Lebar kolom data */
+            text-align: left;
+        }
+
+        /* JavaScript styling */
+        .filled-data {
+            font-weight: normal; /* Untuk membedakan data yang diisi */
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <img src="logokemenag.png" 
+                 alt="Logo Kementerian Agama" class="logo">
+            <p class="title">PTSP ONLINE</p>
+            <p class="title"><strong>KEMENTERIAN AGAMA KABUPATEN BANGKA BARAT</strong></p>
+            <p class="main-title">BUKTI PERMOHONAN JANJI TEMU</p>
+        </div>
+
+        <table class="table-container">
+            <tr>
+                <td class="label-col">Nomor Tiket</td>
+                <td class="data-col" id="nomor-tiket-data"></td>
+            </tr>
+            <tr>
+                <td class="label-col">Nama Pemohon</td>
+                <td class="data-col" id="nama-pemohon-data"></td>
+            </tr>
+            <tr>
+                <td class="label-col">Tanggal Pertemuan</td>
+                <td class="data-col" id="tanggal-pertemuan-data"></td>
+            </tr>
+            <tr>
+                <td class="label-col">Perihal</td>
+                <td class="data-col" id="perihal-data"></td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        // Data Janji Temu (Contoh Data Dummy)
+        const janjiTemuData = {
+            nomorTiket: "PT-BB-20251115-0042",
+            namaPemohon: "Budi Santoso",
+            tanggalPertemuan: "Selasa, 18 November 2025 (Pukul 10:00 WIB)",
+            perihal: "Konsultasi persyaratan nikah"
+        };
+
+        // Fungsi untuk mengisi data ke dalam tabel
+        function fillData() {
+            document.getElementById('nomor-tiket-data').innerHTML = `<span class="filled-data">${janjiTemuData.nomorTiket}</span>`;
+            document.getElementById('nama-pemohon-data').innerHTML = `<span class="filled-data">${janjiTemuData.namaPemohon}</span>`;
+            document.getElementById('tanggal-pertemuan-data').innerHTML = `<span class="filled-data">${janjiTemuData.tanggalPertemuan}</span>`;
+            document.getElementById('perihal-data').innerHTML = `<span class="filled-data">${janjiTemuData.perihal}</span>`;
+        }
+
+        // Panggil fungsi saat halaman selesai dimuat
+        window.onload = fillData;
+    </script>
+
+</body>
+</html>
