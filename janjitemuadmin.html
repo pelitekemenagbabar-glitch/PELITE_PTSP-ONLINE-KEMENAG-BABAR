@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Janji Temu - Pelite PTSP Online Kemenag Babar</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind + Neumorphism -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neumo-base': '#e0e5ec',
+                        'primary-blue': '#2563eb',
+                    },
+                    boxShadow: {
+                        'neumo-out': '6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff',
+                        'neumo-in': 'inset 6px 6px 12px #a3b1c6, inset -6px -6px 12px #ffffff',
+                        'neumo-press': 'inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #ffffff',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        html { font-family: 'Inter', sans-serif; }
+        body {
+            background-color: #e0e5ec;
+            color: #4b5563;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            transition: transform 0.3s ease-out;
+            transform: translateX(100%);
+            background-color: #e0e5ec;
+        }
+        .sidebar.open { transform: translateX(0); }
+
+        .neumo-btn {
+            background-color: #e0e5ec;
+            box-shadow: 6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff;
+            transition: all 0.2s ease-in-out;
+        }
+        .neumo-btn:active {
+            box-shadow: inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #ffffff;
+            color: #2563eb;
+        }
+
+        /* 3D Menu Item Style */
+        .menu-item-3d {
+            background-color: #e0e5ec;
+            border-radius: 12px;
+            box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+            transition: all 0.2s ease-in-out;
+            margin: 8px 16px;
+            padding: 1rem;
+        }
+        .menu-item-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff;
+        }
+        .menu-item-3d:active, .menu-item-3d.active {
+            box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
+            color: #2563eb;
+        }
+
+        /* Tabel Style */
+        .custom-table-wrapper {
+            background-color: #e0e5ec;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff;
+        }
+        .custom-table th {
+            background: linear-gradient(to right, #2563eb, #1d4ed8);
+            color: white;
+            padding: 1rem;
+            font-size: 0.875rem;
+        }
+        .custom-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #d1d5db;
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <nav class="sticky top-0 z-20 bg-green-800 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img src="logokemenag.png" alt="Logo PTSP" class="w-8 h-8 rounded-full mr-2">
+                    <span class="text-xl font-bold text-white">KEMENTERIAN AGAMA BANGKA BARAT</span>
+                </div>
+                <div class="flex">
+                    <button id="menu-button" class="p-2 rounded-md text-gray-200 hover:text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-label="Toggle Menu">
+                        <i data-lucide="menu" class="h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Overlay & Sidebar -->
+    <div id="overlay" class="fixed inset-0 bg-black opacity-0 z-20 transition-opacity duration-300 pointer-events-none"></div>
+    <div id="sidebar-menu" class="sidebar fixed top-0 right-0 w-64 h-full shadow-xl z-30 flex flex-col pt-4 overflow-y-auto">
+        <div class="flex justify-end p-4">
+            <button id="close-menu-button" class="neumo-btn w-10 h-10 rounded-full flex items-center justify-center" aria-label="Close Menu">
+                <i data-lucide="x" class="h-6 w-6 text-gray-600"></i>
+            </button>
+        </div>
+        <div id="sidebar-admin-info" class="text-center p-4 border-b border-gray-300 mb-4" style="display: none;">
+            <img id="sidebar-admin-photo" src="admin.png" alt="Foto Admin" class="w-20 h-20 rounded-full object-cover mx-auto mb-2 shadow-neumo-in p-1">
+            <p id="sidebar-admin-name" class="font-semibold text-primary-blue"></p>
+            <p id="sidebar-admin-role" class="text-xs text-gray-500"></p>
+        </div>
+
+        <a href="index.html" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="home" class="w-5 h-5 mr-3"></i><span>Beranda</span></a>
+        <a href="prosedur.html" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="file-text" class="w-5 h-5 mr-3"></i><span>Prosedur Layanan</span></a>
+        <a href="layanan.html" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="users" class="w-5 h-5 mr-3"></i><span>Layanan Masyarakat</span></a>
+        <a href="janjitemuadmin.html" class="menu-item-3d active text-primary-blue font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="calendar-plus" class="w-5 h-5 mr-3"></i><span>Janji Temu</span></a>
+        <a href="https://pmpzi.kemenag.go.id/survei/instrumen.php?id=337" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="smile" class="w-5 h-5 mr-3"></i><span>Survey Kepuasan</span></a>
+        <a href="https://tinyurl.com/SIMDA-1-BABAR" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="app-window" class="w-5 h-5 mr-3"></i><span>Aplikasi Pendataan</span></a>
+        <a href="#" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="mail" class="w-5 h-5 mr-3"></i><span>Hubungi Kami</span></a>
+        <a href="#" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="help-circle" class="w-5 h-5 mr-3"></i><span>FAQ</span></a>
+        <a id="pengaturan-admin-menu" href="pengaturan.html" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="user-cog" class="w-5 h-5 mr-3"></i><span>Pengaturan Admin</span></a>
+        <a id="daftar-layanan-menu" href="#" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="list" class="w-5 h-5 mr-3"></i><span>Daftar Layanan</span></a>
+        <a id="backup-reset-menu" href="#" class="menu-item-3d text-gray-700 font-medium flex items-center" onclick="closeMenu()">
+            <i data-lucide="database-backup" class="w-5 h-5 mr-3"></i><span>Backup & Reset</span></a>
+        <a id="logout-btn-sidebar" href="#" class="menu-item-3d text-red-600 font-semibold flex items-center mt-auto" onclick="logout(event)">
+            <i data-lucide="log-out" class="w-5 h-5 mr-3"></i><span>Logout</span></a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="py-12 px-6" id="main-content">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-3xl font-bold text-center mb-6 text-primary-blue">Daftar Permohonan Janji Temu</h1>
+
+            <div class="flex flex-wrap gap-4 justify-center mb-8">
+                <div class="relative">
+                    <input type="text" placeholder="Cari pemohon..." class="neumo-btn w-64 px-4 py-3 rounded-xl focus:outline-none">
+                    <i data-lucide="search" class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i>
+                </div>
+                <button class="neumo-btn inline-flex items-center justify-center px-6 py-3 text-base font-semibold rounded-xl text-primary-blue hover:text-white hover:bg-primary-blue active:shadow-neumo-press transition duration-300">
+                    Export <i data-lucide="download" class="w-4 h-4 ml-2"></i>
+                </button>
+                <a href="index.html" class="neumo-btn inline-flex items-center justify-center px-6 py-3 text-base font-semibold rounded-xl text-primary-blue hover:text-white hover:bg-primary-blue active:shadow-neumo-press transition duration-300">
+                    Beranda <i data-lucide="home" class="w-4 h-4 ml-2"></i>
+                </a>
+            </div>
+
+            <div class="custom-table-wrapper overflow-x-auto">
+                <table class="custom-table w-full text-left">
+                    <thead>
+                        <tr>
+                            <th>Nomor Tiket</th>
+                            <th>Nama Pemohon</th>
+                            <th>Instansi/Perorangan</th>
+                            <th>Jabatan</th>
+                            <th>Nomor Tlp/Wa</th>
+                            <th>Pejabat Yang Dituju</th>
+                            <th>Perihal</th>
+                            <th>Tanggal Pertemuan</th>
+                            <th>Waktu</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="janjiTemuTableBody">
+                        <!-- Data akan dimuat oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-800 text-white pt-12 pb-8 mt-16" id="kontak">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+                <div>
+                    <h4 class="text-xl font-semibold mb-4 text-blue-400">PTSP Kementerian Agama Bangka Barat</h4>
+                    <p class="text-sm mb-2 flex items-start">
+                        <i data-lucide="map-pin" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                        Komplek Perkantoran Terpadu Pemkab Bangka Barat, Daya Baru Pal 4, Mentok. Kode Pos: 33351
+                    </p>
+                    <p class="text-sm mb-2 flex items-start" id="footer-email">
+                        <i data-lucide="mail" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                        kemenagkabbabar@gmail.com
+                    </p>
+                    <p class="text-sm flex items-start" id="footer-phone">
+                        <i data-lucide="phone" class="w-5 h-5 mr-3 flex-shrink-0"></i>
+                        (0717)1234567
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold mb-4 text-blue-400">Link Cepat</h4>
+                    <ul class="space-y-2 text-sm" id="footer-quick-links">
+                        <li><a href="layanan.html" class="hover:text-blue-300 transition duration-150">Daftar Layanan</a></li>
+                        <li><a href="prosedur.html" class="hover:text-blue-300 transition duration-150">Standar Pelayanan</a></li>
+                        <li><a href="#faq" class="hover:text-blue-300 transition duration-150">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="md:text-left">
+                    <h4 class="text-xl font-semibold mb-4 text-blue-400">Ikuti Kami</h4>
+                    <div class="flex space-x-4 md:justify-start">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 shadow-lg flex items-center justify-center transition duration-300 hover:bg-blue-500"><i data-lucide="facebook" class="w-5 h-5 text-white"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 shadow-lg flex items-center justify-center transition duration-300 hover:bg-blue-500"><i data-lucide="twitter" class="w-5 h-5 text-white"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-700 shadow-lg flex items-center justify-center transition duration-300 hover:bg-blue-500"><i data-lucide="instagram" class="w-5 h-5 text-white"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-700 text-center">
+                <p class="text-sm text-gray-400">© <span id="year"></span> PTSP Digital. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase & Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sidebar
+        const menuButton = document.getElementById('menu-button');
+        const closeMenuButton = document.getElementById('close-menu-button');
+        const sidebarMenu = document.getElementById('sidebar-menu');
+        const overlay = document.getElementById('overlay');
+        const body = document.body;
+
+        function openMenu() {
+            sidebarMenu.classList.add('open');
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.classList.add('opacity-50', 'pointer-events-auto');
+            body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            sidebarMenu.classList.remove('open');
+            overlay.classList.remove('opacity-50', 'pointer-events-auto');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            body.style.overflow = '';
+        }
+
+        menuButton?.addEventListener('click', openMenu);
+        closeMenuButton?.addEventListener('click', closeMenu);
+        overlay?.addEventListener('click', closeMenu);
+
+        // Supabase Client
+        const SUPABASE_URL = 'https://ridspgzuzptmckeznpkt.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpZHNwZ3p1enB0bWNrZXpucGt0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTk4MzEsImV4cCI6MjA3ODU5NTgzMX0.va-HJexum-IFKP8aTA4LBvQb6vcUdNseBXfnElFL5oE';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // UI Login/Logout State
+        const pengaturanMenu = document.getElementById('pengaturan-admin-menu');
+        const layananMenu = document.getElementById('daftar-layanan-menu');
+        const backupMenu = document.getElementById('backup-reset-menu');
+        const logoutBtn = document.getElementById('logout-btn-sidebar');
+        const sidebarAdminInfo = document.getElementById('sidebar-admin-info');
+        const tableBody = document.getElementById('janjiTemuTableBody');
+
+        function checkLoginState() {
+            const loggedInAdmin = localStorage.getItem('loggedInAdmin');
+            if (loggedInAdmin) {
+                const adminData = JSON.parse(loggedInAdmin);
+                sidebarAdminInfo.style.display = 'block';
+                document.getElementById('sidebar-admin-photo').src = adminData.photo;
+                document.getElementById('sidebar-admin-name').textContent = adminData.nama;
+                document.getElementById('sidebar-admin-role').textContent = 'Admin Logged In';
+                
+                pengaturanMenu.style.display = 'flex';
+                layananMenu.style.display = 'flex';
+                backupMenu.style.display = 'flex';
+                logoutBtn.style.display = 'flex';
+                fetchJanjiTemu(); // Panggil fungsi untuk memuat data janji temu
+            } else {
+                sidebarAdminInfo.style.display = 'none';
+                pengaturanMenu.style.display = 'none';
+                layananMenu.style.display = 'none';
+                backupMenu.style.display = 'none';
+                logoutBtn.style.display = 'none';
+                document.getElementById('main-content').innerHTML = `<div class="text-center"><h1 class="text-2xl font-bold text-red-600">Akses Ditolak</h1><p>Anda harus login untuk mengakses halaman ini.</p><a href="index.html" class="neumo-btn inline-block mt-4 px-6 py-3">Kembali ke Beranda</a></div>`;
+            }
+        }
+
+        async function fetchJanjiTemu() {
+            tableBody.innerHTML = `<tr><td colspan="11" class="text-center">Memuat data...</td></tr>`;
+
+            const { data, error } = await supabaseClient
+                .from('tabeljanjitemu')
+                .select('*')
+                .order('id', { ascending: false });
+
+            if (error) {
+                console.error('Error fetching data:', error);
+                tableBody.innerHTML = `<tr><td colspan="11" class="text-center text-red-500">Gagal memuat data.</td></tr>`;
+                return;
+            }
+
+            if (data.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="11" class="text-center">Belum ada permohonan janji temu.</td></tr>`;
+                return;
+            }
+
+            tableBody.innerHTML = ''; // Kosongkan tabel
+            data.forEach(item => {
+                const statusMap = {
+                    'Belum diproses': 'bg-gray-200 text-gray-800',
+                    'Menunggu': 'bg-yellow-200 text-yellow-800',
+                    'Disetujui': 'bg-green-200 text-green-800',
+                    'Ditolak': 'bg-red-200 text-red-800',
+                };
+                const statusClass = statusMap[item.status] || 'bg-gray-200 text-gray-800';
+
+                let aksiHtml = '';
+                if (item.status === 'Belum diproses') {
+                    aksiHtml = `<button class="neumo-btn p-2 rounded-md text-xs">Belum Dibaca</button>`;
+                } else if (item.status === 'Menunggu') {
+                     aksiHtml = `
+                        <button class="neumo-btn p-2 rounded-md hover:bg-green-500 hover:text-white"><i data-lucide="check" class="w-4 h-4"></i></button>
+                        <button class="neumo-btn p-2 rounded-md hover:bg-red-500 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+                    `;
+                } else {
+                    aksiHtml = `<button class="neumo-btn p-2 rounded-md"><i data-lucide="eye" class="w-4 h-4"></i></button>`;
+                }
+
+                const row = `
+                    <tr>
+                        <td>${item.nomor_tiket}</td>
+                        <td>${item.nama_pemohon}</td>
+                        <td>${item.instansi}</td>
+                        <td>${item.jabatan}</td>
+                        <td>${item.nomor_tlp}</td>
+                        <td>${item.pejabat_dituju}</td>
+                        <td>${item.perihal}</td>
+                        <td>${item.tanggal}</td>
+                        <td>${item.waktu}</td>
+                        <td><span class="status-badge ${statusClass}">${item.status}</span></td>
+                        <td class="flex gap-2">${aksiHtml}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+
+            lucide.createIcons();
+        }
+
+
+        function logout(event) {
+            event.preventDefault();
+            localStorage.removeItem('loggedInAdmin');
+            alert('Anda telah logout.');
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkLoginState();
+            lucide.createIcons();
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'loggedInAdmin' && !event.newValue) {
+                checkLoginState();
+            }
+        });
+
+    </script>
+</body>
+</html>

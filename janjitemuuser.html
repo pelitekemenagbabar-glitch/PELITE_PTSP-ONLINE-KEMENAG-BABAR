@@ -367,6 +367,11 @@
         </div>
     </footer>
 
+    <!-- Supabase & Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- jsPDF untuk membuat PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         // Karena menu hamburger dan sidebar tidak digunakan di halaman ini,
@@ -379,6 +384,40 @@
         const cancelBtn = document.getElementById('cancel-btn');
         const officialSelect = document.getElementById('official-to-meet');
         const otherOfficialWrapper = document.getElementById('other-official-wrapper');
+        const appointmentForm = document.getElementById('appointment-form');
+        const ticketNumberInput = document.getElementById('ticket-number');
+
+        // Supabase Client
+        const SUPABASE_URL = 'https://ridspgzuzptmckeznpkt.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpZHNwZ3p1enB0bWNrZXpucGt0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwMTk4MzEsImV4cCI6MjA3ODU5NTgzMX0.va-HJexum-IFKP8aTA4LBvQb6vcUdNseBXfnElFL5oE';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Fungsi untuk generate nomor tiket
+        async function generateTicketNumber() {
+            // 1. Hitung jumlah data yang ada di Supabase
+            const { count, error } = await supabaseClient
+                .from('tabeljanjitemu')
+                .select('*', { count: 'exact', head: true });
+
+            if (error) {
+                console.error("Error counting data:", error);
+                alert("Gagal membuat nomor tiket, silakan coba lagi.");
+                return null;
+            }
+
+            // 2. Tentukan nomor urut berikutnya
+            const nextSequence = (count || 0) + 1;
+            const paddedSequence = String(nextSequence).padStart(3, '0');
+
+            // 3. Buat format tanggal YYYYMMDD
+            const date = new Date();
+            const yyyy = date.getFullYear();
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const dd = String(date.getDate()).padStart(2, '0');
+            
+            // 4. Gabungkan semua bagian menjadi nomor tiket
+            return `JT-${yyyy}${mm}${dd}/${paddedSequence}`;
+        }
 
         officialSelect.addEventListener('change', function() {
             if (this.value === 'lainnya') {
@@ -400,8 +439,18 @@
             setTimeout(() => appointmentModal.classList.add('hidden'), 300);
         }
 
-        openModalBtn.addEventListener('click', (e) => {
+        openModalBtn.addEventListener('click', async (e) => {
             e.preventDefault();
+            // Tampilkan status loading pada input tiket
+            ticketNumberInput.value = "Membuat nomor tiket...";
+            
+            const newTicketNumber = await generateTicketNumber();
+            
+            if (!newTicketNumber) {
+                return; // Hentikan jika gagal membuat nomor tiket
+            }
+
+            ticketNumberInput.value = newTicketNumber; // Set nomor tiket baru saat modal dibuka
             showModal();
         });
 
@@ -409,6 +458,82 @@
         cancelBtn.addEventListener('click', hideModal);
         appointmentModal.addEventListener('click', (e) => { if (e.target === appointmentModal) hideModal(); });
 
+        // Handle Form Submission
+        appointmentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i data-lucide="loader-2" class="animate-spin mx-auto"></i> Mengirim...';
+            lucide.createIcons();
+
+            let pejabatDituju = officialSelect.value;
+            if (pejabatDituju === 'lainnya') {
+                pejabatDituju = document.getElementById('other-official').value;
+            }
+
+            const formData = {
+                nomor_tiket: ticketNumberInput.value,
+                nama_pemohon: document.getElementById('full-name').value,
+                instansi: document.getElementById('organization').value,
+                jabatan: document.getElementById('position').value || '-',
+                nomor_tlp: document.getElementById('phone-number').value,
+                pejabat_dituju: pejabatDituju,
+                perihal: document.getElementById('subject').value,
+                tanggal: document.getElementById('visit-date').value,
+                waktu: document.getElementById('visit-time').value,
+                status: 'Belum diproses' // Status awal
+            };
+
+            try {
+                const { error } = await supabaseClient
+                    .from('tabeljanjitemu')
+                    .insert([formData]);
+
+                if (error) {
+                    throw error;
+                }
+
+                // --- PEMBUATAN DAN UNDUH PDF ---
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                doc.setFontSize(18);
+                doc.text("Bukti Permohonan Janji Temu", 105, 20, null, null, 'center');
+                
+                doc.setFontSize(12);
+                doc.text("Nomor Tiket:", 20, 40);
+                doc.text(formData.nomor_tiket, 80, 40);
+
+                doc.text("Nama Pemohon:", 20, 50);
+                doc.text(formData.nama_pemohon, 80, 50);
+
+                doc.text("Tanggal Pertemuan:", 20, 60);
+                doc.text(`${formData.tanggal} pukul ${formData.waktu}`, 80, 60);
+
+                doc.text("Perihal:", 20, 70);
+                doc.text(formData.perihal, 80, 70);
+
+                doc.save(`bukti-janji-temu-${formData.nomor_tiket}.pdf`);
+                // --- AKHIR PEMBUATAN PDF ---
+
+                alert('BERHASIL! Permohonan Anda telah dikirim. Bukti PDF dengan nomor tiket ' + formData.nomor_tiket + ' telah diunduh ke perangkat Anda.');
+                appointmentForm.reset();
+                hideModal();
+
+            } catch (error) {
+                console.error('Error submitting appointment:', error);
+                alert('Gagal mengirim permohonan. Silakan coba lagi. Error: ' + error.message);
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Kirim';
+            }
+        });
+
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
 
         // Lucide
         lucide.createIcons();
@@ -417,5 +542,6 @@
         // Year
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
+
 </body>
 </html>
